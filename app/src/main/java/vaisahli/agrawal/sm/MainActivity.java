@@ -329,7 +329,7 @@ public class MainActivity extends AppCompatActivity {
         location.setText(s2);
         Boolean b1=  sharedPreferences.getBoolean("Time", Boolean.parseBoolean(null));
         Time.setEnabled(b1);
-
+//HELLOIDF
 
     }
 
