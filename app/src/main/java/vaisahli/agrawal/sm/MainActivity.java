@@ -57,15 +57,15 @@ public class MainActivity extends AppCompatActivity {
         StickeyNote = findViewById(R.id.Stickey_note);
         Weather = findViewById(R.id.Weather);
         News = findViewById(R.id.News);
-        Notification = findViewById(R.id.Notification);
+      //  Notification = findViewById(R.id.Notification);
         location = findViewById(R.id.location);
         analog = findViewById(R.id.radioButton);
         digital = findViewById(R.id.radioButton2);
         date = findViewById(R.id.Date);
         day=findViewById(R.id.Day);
         event = findViewById(R.id.Event);
-        call = findViewById(R.id.Call);
-        msg = findViewById(R.id.Msg);
+      //  call = findViewById(R.id.Call);
+      //  msg = findViewById(R.id.Msg);
         rGrup = findViewById(R.id.radiogrup);
 
         Time.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
@@ -191,39 +191,7 @@ public class MainActivity extends AppCompatActivity {
         });
 
         //notification
-        Notification.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if(Notification.isChecked())
-                {
-                    call.setEnabled(true);
-                    msg.setEnabled(true);
-                    nOtifyId="1";
 
-                }
-                else
-                {   call.setEnabled(false);
-                    msg.setEnabled(false);
-                    nOtifyId="0";
-                }
-                if(call.isChecked())
-                {
-                    callId="1";
-                }
-                else
-                {
-                    callId="0";
-                }
-                if(msg.isChecked())
-                {
-                    msgId="1";
-                }
-                else
-                {
-                    msgId="0";
-                }
-            }
-        });
 
         //news
         News.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
@@ -242,12 +210,7 @@ public class MainActivity extends AppCompatActivity {
         Save.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-
                doGet();
-
-
-
             }
         });
     }
@@ -256,9 +219,8 @@ public class MainActivity extends AppCompatActivity {
 
     public void doGet()
     {
-        Toast.makeText(MainActivity.this, "Running", Toast.LENGTH_SHORT).show();
         RequestQueue getQueue = Volley.newRequestQueue(this);
-        String url = "http://spiculate-dachshund-5820.dataplicity.io/cgi-bin/index.py";
+        String url ="https://spiculate-dachshund-5820.dataplicity.io/cgi-bin/index.py";
         StringRequest getRequest = new StringRequest(Request.Method.POST, url,
                 new Response.Listener<String>() {
                     @Override
@@ -270,8 +232,8 @@ public class MainActivity extends AppCompatActivity {
                 {
                     @Override
                     public void onErrorResponse(VolleyError error) {
-                        // error
-                        //Log.d("Error.Response", response);
+                        Toast.makeText(MainActivity.this, "Error", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(MainActivity.this, error.toString(), Toast.LENGTH_SHORT).show();
                     }
                 }
         ) {
@@ -294,11 +256,13 @@ public class MainActivity extends AppCompatActivity {
                 params.put("callid",callId);
                 params.put("msgid",msgId);
                 params.put("newsid",newsId);
+
                 return params;
 
             }
         };
         getQueue.add(getRequest);
+
     }
 
     @Override
@@ -309,8 +273,52 @@ public class MainActivity extends AppCompatActivity {
 
         editor.putString("note",note.getText().toString().trim());
         editor.putString("weather",location.getText().toString().trim());
-        editor.putBoolean("Time",Time.isChecked());
-        editor.putBoolean("bool",true);
+        if(Time.isChecked())
+            editor.putBoolean("time",true);
+        else
+            editor.putBoolean("time",false);
+        if(analog.isChecked())
+            editor.putBoolean("analog",true);
+        else
+            editor.putBoolean("analog",false);
+        if(digital.isChecked())
+            editor.putBoolean("digital",true);
+        else
+            editor.putBoolean("digital",false);
+
+        if(Calendar.isChecked())
+            editor.putBoolean("cal",true);
+        else
+            editor.putBoolean("cal",false);
+
+        if(date.isChecked())
+            editor.putBoolean("date",true);
+        else
+            editor.putBoolean("date",false);
+
+        if(day.isChecked())
+            editor.putBoolean("day",true);
+        else
+            editor.putBoolean("day",false);
+
+        if(event.isChecked())
+            editor.putBoolean("event",true);
+        else
+            editor.putBoolean("event",false);
+
+        if(Weather.isChecked())
+            editor.putBoolean("weatherid",true);
+        else
+            editor.putBoolean("weatherid",false);
+
+        if(StickeyNote.isChecked())
+            editor.putBoolean("todo1",true);
+        else
+            editor.putBoolean("todo1",false);
+        if(News.isChecked())
+            editor.putBoolean("news",true);
+        else
+            editor.putBoolean("news",false);
 
 
         editor.apply();
@@ -323,12 +331,22 @@ public class MainActivity extends AppCompatActivity {
         String s1=sharedPreferences.getString("note","");
         Boolean remember=sharedPreferences.getBoolean("bool",false);
         note.setText(s1);
-
         String s2=sharedPreferences.getString("weather","");
         Boolean re=sharedPreferences.getBoolean("bool",false);
         location.setText(s2);
-        Boolean b1=  sharedPreferences.getBoolean("Time", Boolean.parseBoolean(null));
-        Time.setEnabled(b1);
+        Time.setChecked(sharedPreferences.getBoolean("time",true));
+        analog.setChecked(sharedPreferences.getBoolean("analog",true));
+        digital.setChecked(sharedPreferences.getBoolean("digital",true));
+        Calendar.setChecked(sharedPreferences.getBoolean("cal",true));
+        date.setChecked(sharedPreferences.getBoolean("date",true));
+        day.setChecked(sharedPreferences.getBoolean("day",true));
+        event.setChecked(sharedPreferences.getBoolean("event",true));
+        Weather.setChecked(sharedPreferences.getBoolean("weatherid",true));
+        StickeyNote.setChecked(sharedPreferences.getBoolean("todo1",true));
+        News.setChecked(sharedPreferences.getBoolean("News",true));
+
+
+
 //HELLOIDF
 
     }
